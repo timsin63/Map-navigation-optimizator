@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.example.timofey.mapnavigationoptimizator"
@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -24,4 +29,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.google.android.gms:play-services:9.0.2'
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'ru.ngs.developer:floatingactionbutton:1.0.2'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.3'
 }
