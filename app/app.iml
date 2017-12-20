@@ -21,6 +21,28 @@
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="3" platform="JVM 1.8" useProjectSettings="false">
+        <compilerSettings />
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/build/tmp/kotlin-classes/debug" />
+          <option name="noStdlib" value="true" />
+          <option name="noReflect" value="true" />
+          <option name="moduleName" value="app_debug" />
+          <option name="jvmTarget" value="1.8" />
+          <option name="addCompilerBuiltIns" value="true" />
+          <option name="loadBuiltInsFromDependencies" value="true" />
+          <option name="languageVersion" value="1.1" />
+          <option name="apiVersion" value="1.1" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/build/intermediates/classes/debug" />
@@ -113,6 +135,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
+      <excludeFolder url="file://$MODULE_DIR$/build/kotlin" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
@@ -133,6 +156,7 @@
     <orderEntry type="library" name="com.google.android.gms:play-services-drive-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-cast-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-iid-9.0.2" level="project" />
+    <orderEntry type="library" name="com.squareup.okhttp3:okhttp:3.8.0@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-safetynet-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-auth-common-9.0.2" level="project" />
@@ -147,13 +171,16 @@
     <orderEntry type="library" name="com.google.android.gms:play-services-games-9.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:appcompat-v7-24.0.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-analytics-impl-9.0.2" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.51@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-messaging-9.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:support-annotations:24.2.1@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-appindexing-9.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:support-v4-24.2.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-iid-9.0.2" level="project" />
+    <orderEntry type="library" name="com.squareup.okio:okio:1.13.0@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-storage-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-database-connection-9.0.2" level="project" />
+    <orderEntry type="library" name="com.squareup.retrofit2:retrofit:2.3.0@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-impl-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-appinvite-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-crash-9.0.2" level="project" />
@@ -161,6 +188,7 @@
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-24.0.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-location-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-storage-common-9.0.2" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib:1.1.51@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-panorama-9.0.2" level="project" />
     <orderEntry type="library" name="ru.ngs.developer:floatingactionbutton-1.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:support-media-compat-24.2.1" level="project" />
@@ -169,6 +197,7 @@
     <orderEntry type="library" name="com.android.support:mediarouter-v7-23.0.0" level="project" />
     <orderEntry type="library" name="com.android.support:support-vector-drawable-24.0.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-ads-lite-9.0.2" level="project" />
+    <orderEntry type="library" name="org.jetbrains:annotations:13.0@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-plus-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-ads-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-gcm-9.0.2" level="project" />

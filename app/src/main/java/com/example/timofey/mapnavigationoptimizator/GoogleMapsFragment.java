@@ -66,7 +66,6 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        initPlaceCompleteView();
         placeAutocompleteFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager()
                 .findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -144,4 +143,6 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
         this.googleMap = googleMap;
         setUpMap();
     }
+
+
 }
