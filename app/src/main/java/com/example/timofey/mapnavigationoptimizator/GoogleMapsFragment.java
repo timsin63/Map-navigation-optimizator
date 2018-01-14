@@ -30,12 +30,13 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import retrofit2.Response;
 import ru.ngs.floatingactionbutton.FloatingActionButton;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static com.example.timofey.mapnavigationoptimizator.MapsActivity.LOCATION_REQUEST_CODE;
 
-public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
+public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.View, OnMapReadyCallback {
 
     public final static String TAG = "Google_Maps_Fragment";
     private GoogleMap googleMap;
@@ -43,7 +44,27 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment supportMapFragment;
     private SupportPlaceAutocompleteFragment placeAutocompleteFragment;
 
+    private GoogleMapsContract.Presenter presenter;
+
     public GoogleMapsFragment() {}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = new GoogleMapsPresenter();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.bind(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.unbind(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +91,18 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.place_autocomplete_fragment);
 
         placeAutocompleteFragment.getView().setVisibility(View.GONE);
+
+        placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                presenter.onPlaceSelected(place);
+            }
+
+            @Override
+            public void onError(Status status) {
+
+            }
+        });
 
         FloatingActionButton buttonAdd = (FloatingActionButton) getActivity().findViewById(R.id.btn_add);
         buttonAdd.setOnClickListener(v -> {

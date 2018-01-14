@@ -1,4 +1,4 @@
-package com.example.timofey.mapnavigationoptimizator;
+package com.example.timofey.mapnavigationoptimizator.remote;
 
 import com.google.android.gms.location.places.Place;
 
@@ -14,6 +14,5 @@ import retrofit2.http.Url;
 public interface GoogleApi {
 
     @GET()
-    Call<PlaceRsp> getDimensions(@Url String url,
-            @Query("parameters") String parameters);
+    Call<PlacesRsp> getDimensions(@Url String url);
 }
