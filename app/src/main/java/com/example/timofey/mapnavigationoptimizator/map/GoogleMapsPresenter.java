@@ -1,12 +1,12 @@
-package com.example.timofey.mapnavigationoptimizator;
+package com.example.timofey.mapnavigationoptimizator.map;
 
 import android.util.Log;
 
+import com.example.timofey.mapnavigationoptimizator.GoogleApiModel;
 import com.google.android.gms.location.places.Place;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 

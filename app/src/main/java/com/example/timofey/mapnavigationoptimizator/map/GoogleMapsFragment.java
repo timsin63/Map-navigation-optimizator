@@ -1,23 +1,20 @@
-package com.example.timofey.mapnavigationoptimizator;
+package com.example.timofey.mapnavigationoptimizator.map;
 
 
-import android.*;
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.timofey.mapnavigationoptimizator.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -30,11 +27,9 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import retrofit2.Response;
 import ru.ngs.floatingactionbutton.FloatingActionButton;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static com.example.timofey.mapnavigationoptimizator.MapsActivity.LOCATION_REQUEST_CODE;
 
 public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.View, OnMapReadyCallback {
 
@@ -72,7 +67,7 @@ public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.V
         super.onCreateView(inflater, container, savedInstanceState);
 
         if (view == null) {
-            view = inflater.inflate(R.layout.f_google_maps, container, false);
+            view = inflater.inflate(com.example.timofey.mapnavigationoptimizator.R.layout.f_google_maps, container, false);
         }
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);

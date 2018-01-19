@@ -2,13 +2,10 @@ package com.example.timofey.mapnavigationoptimizator;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.Size;
 
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMapsContract;
 import com.example.timofey.mapnavigationoptimizator.remote.PlacesRsp;
 
-import java.io.IOException;
-
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Response;
