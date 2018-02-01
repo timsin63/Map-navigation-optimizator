@@ -14,20 +14,20 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Timofey on 25.12.2017.
  */
 
-public class GoogleMapsPresenter implements GoogleMapsContract.Presenter {
+public class GoogleMapsPresenter implements GoogleMaps.Presenter {
 
-    private GoogleMapsContract.View view;
-    private GoogleMapsContract.Model model = new GoogleApiModel();
+    private GoogleMaps.View view;
+    private GoogleMaps.Model model = new GoogleApiModel();
     private CompositeDisposable disposables;
 
     @Override
-    public void bind(GoogleMapsContract.View view) {
+    public void bind(GoogleMaps.View view) {
         this.view = view;
         disposables = new CompositeDisposable();
     }
 
     @Override
-    public void unbind(GoogleMapsContract.View view) {
+    public void unbind(GoogleMaps.View view) {
         disposables.dispose();
         disposables = null;
         this.view = null;
@@ -41,5 +41,15 @@ public class GoogleMapsPresenter implements GoogleMapsContract.Presenter {
                 .subscribe(s -> {
                     Log.d("Matrix", s.toString());
                 }));
+    }
+
+    @Override
+    public void onNewPointClicked() {
+        view.openNewPointView();
+    }
+
+    @Override
+    public void onPointListClicked() {
+
     }
 }

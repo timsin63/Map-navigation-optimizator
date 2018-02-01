@@ -4,4 +4,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="place_autocomplete_class_name">com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment</string>
+
+    <string name="place_autocomplete_hint">Начните вводить адрес</string>
+    <string name="add_point">Добавить точку</string>
+    <string name="write_address">Напишите адрес</string>
+    <string name="place_not_chosen">Место не выбрано</string>
+    <string name="choose_place">Выберите точку</string>
+    <string name="chosen_place">Выбрана точка с адресом: \n</string>
 </resources>

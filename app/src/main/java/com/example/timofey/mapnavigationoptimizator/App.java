@@ -15,6 +15,7 @@ public class App extends Application {
 
     private Retrofit retrofit;
     private static GoogleApi googleApi;
+    private static DatabaseComponent databaseComponent;
 
     @Override
     public void onCreate() {
@@ -26,9 +27,15 @@ public class App extends Application {
                 .build();
 
         googleApi = retrofit.create(GoogleApi.class);
+
+        databaseComponent = new DatabaseComponent(this);
     }
 
     public static GoogleApi getGoogleApi() {
         return googleApi;
+    }
+
+    public static DatabaseComponent getDatabaseComponent() {
+        return databaseComponent;
     }
 }

@@ -9,13 +9,19 @@ import io.reactivex.Single
 /**
  * Created by Timofey on 25.12.2017.
  */
-class GoogleMapsContract {
+class GoogleMaps {
     interface View {
+        fun openNewPointView()
 
+        fun openPointListView()
     }
 
     interface Presenter : BasePresenter<View> {
         fun onPlaceSelected(place : Place)
+
+        fun onNewPointClicked()
+
+        fun onPointListClicked()
     }
 
     interface Model {

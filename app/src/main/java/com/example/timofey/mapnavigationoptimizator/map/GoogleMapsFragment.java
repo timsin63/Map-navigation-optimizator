@@ -6,7 +6,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.timofey.mapnavigationoptimizator.App;
 import com.example.timofey.mapnavigationoptimizator.R;
+import com.example.timofey.mapnavigationoptimizator.points.NewPointFragment;
+import com.example.timofey.mapnavigationoptimizator.points.NewPointModel;
+import com.example.timofey.mapnavigationoptimizator.points.NewPointPresenter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -31,17 +33,19 @@ import ru.ngs.floatingactionbutton.FloatingActionButton;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.View, OnMapReadyCallback {
+public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnMapReadyCallback {
 
     public final static String TAG = "Google_Maps_Fragment";
     private GoogleMap googleMap;
     private View view = null;
     private SupportMapFragment supportMapFragment;
-    private SupportPlaceAutocompleteFragment placeAutocompleteFragment;
 
-    private GoogleMapsContract.Presenter presenter;
+    private NewPointFragment newPointFragment;
 
-    public GoogleMapsFragment() {}
+    private GoogleMaps.Presenter presenter;
+
+    public GoogleMapsFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,14 +71,12 @@ public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.V
         super.onCreateView(inflater, container, savedInstanceState);
 
         if (view == null) {
-            view = inflater.inflate(com.example.timofey.mapnavigationoptimizator.R.layout.f_google_maps, container, false);
+            view = inflater.inflate(R.layout.f_google_maps, container, false);
         }
 
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        placeAutocompleteFragment = (SupportPlaceAutocompleteFragment) getActivity()
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.place_autocomplete_fragment);
 
+        newPointFragment = (NewPointFragment) getFragmentManager().findFragmentByTag(NewPointFragment.TAG);
         return view;
     }
 
@@ -82,59 +84,12 @@ public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.V
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        placeAutocompleteFragment = (SupportPlaceAutocompleteFragment) getChildFragmentManager()
-                .findFragmentById(R.id.place_autocomplete_fragment);
-
-        placeAutocompleteFragment.getView().setVisibility(View.GONE);
-
-        placeAutocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                presenter.onPlaceSelected(place);
-            }
-
-            @Override
-            public void onError(Status status) {
-
-            }
-        });
-
         FloatingActionButton buttonAdd = (FloatingActionButton) getActivity().findViewById(R.id.btn_add);
         buttonAdd.setOnClickListener(v -> {
-            placeAutocompleteFragment.getView().setVisibility(View.VISIBLE);
-            placeAutocompleteFragment.getView().requestFocus();
+            presenter.onNewPointClicked();
         });
     }
 
-
-
-    private void initPlaceCompleteView() {
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getActivity()
-                .getFragmentManager()
-                .findFragmentById(R.id.place_autocomplete_fragment);
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName());
-
-                String placeDetailsStr = place.getName() + "\n"
-                        + place.getId() + "\n"
-                        + place.getLatLng().toString() + "\n"
-                        + place.getAddress() + "\n"
-                        + place.getAttributions();
-
-                Toast.makeText(getContext().getApplicationContext(), placeDetailsStr, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
-    }
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -173,4 +128,22 @@ public class GoogleMapsFragment extends Fragment implements GoogleMapsContract.V
     }
 
 
+    @Override
+    public void openNewPointView() {
+        if (newPointFragment == null) {
+            newPointFragment = new NewPointFragment();
+            NewPointModel newPointModel = new NewPointModel(App.getDatabaseComponent().getPointRepository());
+            NewPointPresenter newPointPresenter = new NewPointPresenter(newPointModel);
+            newPointFragment.setPresenter(newPointPresenter);
+        }
+        getFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_root, newPointFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void openPointListView() {
+
+    }
 }
