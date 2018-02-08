@@ -2,6 +2,7 @@ package com.example.timofey.mapnavigationoptimizator.points
 
 import com.example.timofey.mapnavigationoptimizator.Place
 import com.example.timofey.mapnavigationoptimizator.database.Point
+import io.reactivex.functions.Action
 
 /**
  * Created by Timofey on 20.01.2018.
@@ -26,6 +27,6 @@ class NewPointPresenter(newPointModel: NewPointModel) : NewPoint.Presenter {
 
     override fun onAddPointClick() {
         model.savePoint(chosenPlace)
-        view.close()
+                .subscribe(Action { view.close() })
     }
 }

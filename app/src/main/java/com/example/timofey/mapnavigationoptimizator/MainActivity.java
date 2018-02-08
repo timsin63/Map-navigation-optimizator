@@ -6,7 +6,10 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMapModel;
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMaps;
 import com.example.timofey.mapnavigationoptimizator.map.GoogleMapsFragment;
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMapsPresenter;
 
 public class MainActivity extends FragmentActivity {
     // Might be null if Google Play services APK is not available.
@@ -20,10 +23,18 @@ public class MainActivity extends FragmentActivity {
 
         checkPermissions();
 
-        GoogleMapsFragment mapsFragment = new GoogleMapsFragment();
+        GoogleMapsFragment mapsFragment = (GoogleMapsFragment) getSupportFragmentManager().findFragmentByTag(GoogleMapsFragment.TAG);
+
+        if (mapsFragment == null) {
+            mapsFragment = new GoogleMapsFragment();
+            GoogleMapModel model = new GoogleMapModel(App.getDatabaseComponent().getPointRepository(),
+                    new GoogleApiModel());
+            GoogleMapsPresenter presenter = new GoogleMapsPresenter(model);
+            mapsFragment.setPresenter(presenter);
+        }
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.activity_main_root ,mapsFragment, GoogleMapsFragment.TAG)
+                .replace(R.id.activity_main_root, mapsFragment, GoogleMapsFragment.TAG)
                 .addToBackStack(null)
                 .commit();
     }

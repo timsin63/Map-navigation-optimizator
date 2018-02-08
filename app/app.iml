@@ -151,6 +151,8 @@
     <orderEntry type="library" name="org.reactivestreams:reactive-streams:1.0.1@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-base-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-identity-9.0.2" level="project" />
+    <orderEntry type="library" name="com.facebook.stetho:stetho-1.4.2" level="project" />
+    <orderEntry type="library" name="com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-vision-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-drive-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-cast-9.0.2" level="project" />
@@ -188,6 +190,7 @@
     <orderEntry type="library" name="com.google.android.gms:play-services-appinvite-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-crash-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-nearby-9.0.2" level="project" />
+    <orderEntry type="library" name="commons-cli:commons-cli:1.2@jar" level="project" />
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-24.0.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-location-9.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-storage-common-9.0.2" level="project" />

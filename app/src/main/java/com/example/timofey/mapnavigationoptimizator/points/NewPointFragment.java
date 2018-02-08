@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,10 @@ public class NewPointFragment extends Fragment implements NewPoint.View {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.f_new_point, container, false);
         pointName = (TextView) view.findViewById(R.id.chosen_point);
+
+        Button addPointButton = (Button) view.findViewById(R.id.btn_new_point);
+        addPointButton.setOnClickListener(v -> presenter.onAddPointClick());
+
         return view;
     }
 

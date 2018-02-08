@@ -7,6 +7,9 @@ import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.database.PointRepository;
 import com.example.timofey.mapnavigationoptimizator.utils.Mappers;
 
+import io.reactivex.Completable;
+import io.reactivex.internal.operators.completable.CompletableObserveOn;
+
 /**
  * Created by Timofey on 22.01.2018.
  */
@@ -20,7 +23,7 @@ public class NewPointModel implements NewPoint.Model {
     }
 
     @Override
-    public void savePoint(@NonNull Place place) {
-        pointRepository.savePoint(Mappers.toEntity(place));
+    public Completable savePoint(@NonNull Place place) {
+        return pointRepository.savePoint(Mappers.toEntity(place));
     }
 }

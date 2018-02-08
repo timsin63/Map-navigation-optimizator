@@ -5,6 +5,9 @@ import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.database.PointEntity;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Timofey on 25.01.2018.
  */

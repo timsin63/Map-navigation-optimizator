@@ -17,8 +17,12 @@ import io.reactivex.schedulers.Schedulers;
 public class GoogleMapsPresenter implements GoogleMaps.Presenter {
 
     private GoogleMaps.View view;
-    private GoogleMaps.Model model = new GoogleApiModel();
+    private GoogleMaps.Model model;
     private CompositeDisposable disposables;
+
+    public GoogleMapsPresenter(GoogleMaps.Model model) {
+        this.model = model;
+    }
 
     @Override
     public void bind(GoogleMaps.View view) {
@@ -51,5 +55,10 @@ public class GoogleMapsPresenter implements GoogleMaps.Presenter {
     @Override
     public void onPointListClicked() {
 
+    }
+
+    @Override
+    public void onMapReady() {
+        model.getSavedPlaces().subscribe(view::setMarkers);
     }
 }

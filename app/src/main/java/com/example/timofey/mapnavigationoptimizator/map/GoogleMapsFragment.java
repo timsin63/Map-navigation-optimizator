@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.timofey.mapnavigationoptimizator.App;
 import com.example.timofey.mapnavigationoptimizator.R;
+import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.points.NewPointFragment;
 import com.example.timofey.mapnavigationoptimizator.points.NewPointModel;
 import com.example.timofey.mapnavigationoptimizator.points.NewPointPresenter;
@@ -22,20 +23,31 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import io.reactivex.Completable;
 import ru.ngs.floatingactionbutton.FloatingActionButton;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnMapReadyCallback {
 
-    public final static String TAG = "Google_Maps_Fragment";
+    public final static String TAG = "GOOGLE_MAPS_FRAGMENT";
+    private static final int CAMERA_BOUNDS_PADDING = 10;
+
     private GoogleMap googleMap;
     private View view = null;
     private SupportMapFragment supportMapFragment;
@@ -50,7 +62,6 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new GoogleMapsPresenter();
     }
 
     @Override
@@ -88,48 +99,32 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
         buttonAdd.setOnClickListener(v -> {
             presenter.onNewPointClicked();
         });
-    }
 
-
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (googleMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMapAsync(gMap -> {
-                        googleMap = gMap;
-                        setUpMap();
-                    });
-            // Check if we were successful in obtaining the map.
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private void setUpMap() {
-
-        googleMap.setMyLocationEnabled(true);
-
-        UiSettings uiSettings = googleMap.getUiSettings();
-        uiSettings.setMyLocationButtonEnabled(true);
-
-        //TODO Using different location providers to get location
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())));
-
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
         setUpMap();
     }
 
 
+    @SuppressLint("MissingPermission")
+    public void setUpMap() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (googleMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            supportMapFragment
+                    .getMapAsync(this);
+        } else {
+            onMapReady(googleMap);
+        }
+    }
+
+    public void setPresenter(GoogleMaps.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
     @Override
     public void openNewPointView() {
+        NewPointFragment newPointFragment = (NewPointFragment) getFragmentManager()
+                .findFragmentByTag(NewPointFragment.TAG);
+
         if (newPointFragment == null) {
             newPointFragment = new NewPointFragment();
             NewPointModel newPointModel = new NewPointModel(App.getDatabaseComponent().getPointRepository());
@@ -145,5 +140,45 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
     @Override
     public void openPointListView() {
 
+    }
+
+    @Override
+    public void setMarkers(@NotNull List<? extends Point> points) {
+        if (points.isEmpty()) return;
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Point point : points) {
+            LatLng position = new LatLng(point.getLatitude(), point.getLongitude());
+            googleMap.addMarker(new MarkerOptions()
+                    .position(position))
+                    .setTitle(point.getName());
+            builder.include(position);
+        }
+        LatLngBounds bounds = builder.build();
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, CAMERA_BOUNDS_PADDING);
+        googleMap.animateCamera(cameraUpdate);
+    }
+
+    @Override
+    public boolean isMapReady() {
+        return googleMap != null;
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.setMyLocationEnabled(true);
+
+        UiSettings uiSettings = googleMap.getUiSettings();
+        uiSettings.setMyLocationButtonEnabled(true);
+
+        //TODO Using different location providers to get location
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_position_arrow)));
     }
 }

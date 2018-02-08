@@ -3,8 +3,14 @@ package com.example.timofey.mapnavigationoptimizator;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.timofey.mapnavigationoptimizator.App;
 import com.example.timofey.mapnavigationoptimizator.map.GoogleMaps;
 import com.example.timofey.mapnavigationoptimizator.remote.PlacesRsp;
+import com.google.android.gms.location.places.Place;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 import io.reactivex.Single;
 import retrofit2.Call;
@@ -14,7 +20,7 @@ import retrofit2.Response;
  * Created by Timofey on 19.10.2017.
  */
 
-public class GoogleApiModel implements GoogleMaps.Model {
+public class GoogleApiModel {
 
     public static final String TAG = "GOOGLE_API_MODEL";
 

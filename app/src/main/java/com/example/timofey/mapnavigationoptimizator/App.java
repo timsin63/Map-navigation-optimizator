@@ -3,6 +3,7 @@ package com.example.timofey.mapnavigationoptimizator;
 import android.app.Application;
 
 import com.example.timofey.mapnavigationoptimizator.remote.GoogleApi;
+import com.facebook.stetho.Stetho;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -29,6 +30,12 @@ public class App extends Application {
         googleApi = retrofit.create(GoogleApi.class);
 
         databaseComponent = new DatabaseComponent(this);
+
+        Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(this);
+        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this));
+        initializerBuilder.enableDumpapp(Stetho.defaultDumperPluginsProvider(this));
+        Stetho.Initializer initializer = initializerBuilder.build();
+        Stetho.initialize(initializer);
     }
 
     public static GoogleApi getGoogleApi() {
