@@ -1,4 +1,4 @@
-package com.example.timofey.mapnavigationoptimizator.points;
+package com.example.timofey.mapnavigationoptimizator.points.newpoint;
 
 
 import android.os.Bundle;

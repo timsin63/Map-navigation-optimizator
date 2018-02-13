@@ -54,7 +54,7 @@ public class GoogleMapsPresenter implements GoogleMaps.Presenter {
 
     @Override
     public void onPointListClicked() {
-
+        view.openPointListView();
     }
 
     @Override

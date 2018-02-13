@@ -1,8 +1,7 @@
-package com.example.timofey.mapnavigationoptimizator.points
+package com.example.timofey.mapnavigationoptimizator.points.newpoint
 
 import com.example.timofey.mapnavigationoptimizator.BasePresenter
 import com.example.timofey.mapnavigationoptimizator.Place
-import com.example.timofey.mapnavigationoptimizator.database.Point
 import io.reactivex.Completable
 
 /**

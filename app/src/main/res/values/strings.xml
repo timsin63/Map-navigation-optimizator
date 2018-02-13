@@ -9,6 +9,7 @@
 
     <string name="place_autocomplete_hint">Начните вводить адрес</string>
     <string name="add_point">Добавить точку</string>
+    <string name="point_list">Список точек</string>
     <string name="write_address">Напишите адрес</string>
     <string name="place_not_chosen">Место не выбрано</string>
     <string name="choose_place">Выберите точку</string>

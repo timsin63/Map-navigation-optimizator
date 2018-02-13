@@ -1,14 +1,12 @@
-package com.example.timofey.mapnavigationoptimizator.points;
+package com.example.timofey.mapnavigationoptimizator.points.newpoint;
 
 import android.support.annotation.NonNull;
 
 import com.example.timofey.mapnavigationoptimizator.Place;
-import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.database.PointRepository;
 import com.example.timofey.mapnavigationoptimizator.utils.Mappers;
 
 import io.reactivex.Completable;
-import io.reactivex.internal.operators.completable.CompletableObserveOn;
 
 /**
  * Created by Timofey on 22.01.2018.

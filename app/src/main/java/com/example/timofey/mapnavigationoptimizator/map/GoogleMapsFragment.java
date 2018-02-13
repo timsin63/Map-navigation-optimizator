@@ -7,22 +7,20 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.example.timofey.mapnavigationoptimizator.App;
 import com.example.timofey.mapnavigationoptimizator.R;
 import com.example.timofey.mapnavigationoptimizator.database.Point;
-import com.example.timofey.mapnavigationoptimizator.points.NewPointFragment;
-import com.example.timofey.mapnavigationoptimizator.points.NewPointModel;
-import com.example.timofey.mapnavigationoptimizator.points.NewPointPresenter;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.example.timofey.mapnavigationoptimizator.points.all.PointsFragment;
+import com.example.timofey.mapnavigationoptimizator.points.all.PointsModel;
+import com.example.timofey.mapnavigationoptimizator.points.all.PointsPresenter;
+import com.example.timofey.mapnavigationoptimizator.points.newpoint.NewPointFragment;
+import com.example.timofey.mapnavigationoptimizator.points.newpoint.NewPointModel;
+import com.example.timofey.mapnavigationoptimizator.points.newpoint.NewPointPresenter;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,10 +34,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Completable;
-import ru.ngs.floatingactionbutton.FloatingActionButton;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -95,9 +91,14 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FloatingActionButton buttonAdd = (FloatingActionButton) getActivity().findViewById(R.id.btn_add);
+        Button buttonAdd = (Button) getActivity().findViewById(R.id.btn_add);
         buttonAdd.setOnClickListener(v -> {
             presenter.onNewPointClicked();
+        });
+
+        Button buttonList = (Button) getActivity().findViewById(R.id.btn_list);
+        buttonList.setOnClickListener(v -> {
+            presenter.onPointListClicked();
         });
 
         setUpMap();
@@ -139,7 +140,20 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
 
     @Override
     public void openPointListView() {
+        PointsFragment pointsFragment = (PointsFragment) getFragmentManager()
+                .findFragmentByTag(PointsFragment.TAG);
 
+        if (pointsFragment == null) {
+            pointsFragment = new PointsFragment();
+            PointsModel pointsModel = new PointsModel(App.getDatabaseComponent().getPointRepository());
+            PointsPresenter pointsPresenter = new PointsPresenter(pointsModel);
+            pointsFragment.setPresenter(pointsPresenter);
+        }
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_root, pointsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -156,7 +170,9 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
         LatLngBounds bounds = builder.build();
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, CAMERA_BOUNDS_PADDING);
-        googleMap.animateCamera(cameraUpdate);
+        try {
+            googleMap.animateCamera(cameraUpdate);
+        } catch (Exception ignored) {}
     }
 
     @Override
@@ -180,5 +196,7 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(location.getLatitude(), location.getLongitude()))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_position_arrow)));
+
+        presenter.onMapReady();
     }
 }
