@@ -35,8 +35,6 @@ class GoogleMaps {
     }
 
     interface Model {
-        fun getDimensionMatrix() : Single<PlacesRsp>
-
         fun getSavedPlaces() : Single<List<Point>>
     }
 }

@@ -13,6 +13,10 @@ import retrofit2.http.Url;
 
 public interface GoogleApi {
 
-    @GET()
-    Call<PlacesRsp> getDimensions(@Url String url);
+    @GET("maps/api/distancematrix/json")
+    Call<PlacesRsp> getDimensions(@Query("origins") String origins,
+                                  @Query("destinations") String destinations,
+                                  @Query("mode") String mode,
+                                  @Query("language") String language,
+                                  @Query("key") String key);
 }

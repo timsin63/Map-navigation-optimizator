@@ -31,12 +31,6 @@ public class GoogleMapModel implements GoogleMaps.Model {
 
     @NotNull
     @Override
-    public Single<PlacesRsp> getDimensionMatrix() {
-        return apiModel.getDimensionMatrix();
-    }
-
-    @NotNull
-    @Override
     public Single<List<Point>> getSavedPlaces() {
         return repository.getAllPoints().flatMapSingle(pointEntities -> {
             return Single.just(new ArrayList<>(pointEntities));

@@ -39,12 +39,7 @@ public class GoogleMapsPresenter implements GoogleMaps.Presenter {
 
     @Override
     public void onPlaceSelected(@NotNull Place place) {
-        disposables.add(model
-                .getDimensionMatrix()
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(s -> {
-                    Log.d("Matrix", s.toString());
-                }));
+
     }
 
     @Override

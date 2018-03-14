@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.timofey.mapnavigationoptimizator.App;
+import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.map.GoogleMaps;
 import com.example.timofey.mapnavigationoptimizator.remote.PlacesRsp;
 import com.google.android.gms.location.places.Place;
@@ -25,12 +26,22 @@ public class GoogleApiModel {
     public static final String TAG = "GOOGLE_API_MODEL";
 
     @NonNull
-    public Single<PlacesRsp> getDimensionMatrix() {
+    public Single<PlacesRsp> getDimensionMatrix(List<Point> points) {
         try {
             return Single.create(emitter -> {
+                String placeNames = "";
+                for (Point point : points) {
+                    placeNames += point.getName() + "|";
+                }
+                placeNames = placeNames.substring(0, placeNames.length()-1);
+
                 Call<PlacesRsp> call = App.getGoogleApi()
-                        .getDimensions("distancematrix/json?origins=Vancouver+BC|Seattle&destinations=San+Francisco|Victoria+BC&mode=bicycling&language=fr-FR&key=AIzaSyDuHCULsqYN16XlLESVfl4wjG6CWzEV_UU"
-                        );
+                        .getDimensions(placeNames,
+                                placeNames,
+                                "drive",
+                                "ru",
+//                                "AIzaSyDuHCULsqYN16XlLESVfl4wjG6CWzEV_UU");
+                                "AIzaSyB3MIl-PU9hV4rvq0uheFh7AvOJa4RWkPI");
                 Response<PlacesRsp> response = call.execute();
                 PlacesRsp rsp = response.body();
                 emitter.onSuccess(rsp);

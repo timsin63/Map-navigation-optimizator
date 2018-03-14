@@ -1,6 +1,8 @@
 package com.example.timofey.mapnavigationoptimizator.points.all
 
+import com.example.timofey.mapnavigationoptimizator.GoogleApiModel
 import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by Timofey on 13.02.2018.
@@ -20,6 +22,9 @@ class PointsPresenter(private val model: Points.Model) : Points.Presenter {
     }
 
     override fun onButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        model.getPointList()
+                .flatMap { list -> model.getDimensionsMatrix(list) }
+                .subscribeOn(Schedulers.newThread())
+                .subscribe()
     }
 }

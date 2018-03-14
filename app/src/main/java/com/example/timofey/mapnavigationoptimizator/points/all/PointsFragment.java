@@ -57,6 +57,10 @@ public class PointsFragment extends Fragment implements Points.View {
 
         startRoutingButton = (Button) view.findViewById(R.id.btn_start_routing);
 
+        startRoutingButton.setOnClickListener(v -> {
+            presenter.onButtonClicked();
+        });
+
         return view;
     }
 

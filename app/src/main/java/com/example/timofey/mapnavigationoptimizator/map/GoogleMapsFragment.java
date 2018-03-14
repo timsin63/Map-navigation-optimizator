@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.timofey.mapnavigationoptimizator.App;
+import com.example.timofey.mapnavigationoptimizator.GoogleApiModel;
 import com.example.timofey.mapnavigationoptimizator.R;
 import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.points.all.PointsFragment;
@@ -145,7 +146,7 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
 
         if (pointsFragment == null) {
             pointsFragment = new PointsFragment();
-            PointsModel pointsModel = new PointsModel(App.getDatabaseComponent().getPointRepository());
+            PointsModel pointsModel = new PointsModel(App.getDatabaseComponent().getPointRepository(), new GoogleApiModel());
             PointsPresenter pointsPresenter = new PointsPresenter(pointsModel);
             pointsFragment.setPresenter(pointsPresenter);
         }
@@ -193,10 +194,12 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_position_arrow)));
+        if (location != null) {
 
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_position_arrow)));
+        }
         presenter.onMapReady();
     }
 }
