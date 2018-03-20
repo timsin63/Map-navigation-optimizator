@@ -46,6 +46,7 @@ dependencies {
     compile 'io.requery:requery:1.5.0'
     compile 'io.requery:requery-android:1.5.0'
     compile 'com.facebook.stetho:stetho:1.4.2'
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
     annotationProcessor 'io.requery:requery-processor:1.5.0'
 }
 repositories {

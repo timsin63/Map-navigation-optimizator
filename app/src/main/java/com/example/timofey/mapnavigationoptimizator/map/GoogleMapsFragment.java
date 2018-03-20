@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -65,6 +66,13 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
     public void onStart() {
         super.onStart();
         presenter.bind(this);
+
+        if (getArguments() != null) {
+            int arr[] = (int[]) getArguments().getSerializable("point_array");
+            if (arr != null && arr.length != 0) {
+                presenter.onRouteReady(arr);
+            }
+        }
     }
 
     @Override
@@ -102,7 +110,11 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
             presenter.onPointListClicked();
         });
 
-        setUpMap();
+        try {
+            setUpMap();
+        } catch (Exception ignored) {}
+
+
     }
 
 
@@ -173,7 +185,8 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, CAMERA_BOUNDS_PADDING);
         try {
             googleMap.animateCamera(cameraUpdate);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
@@ -185,6 +198,8 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+
+
         googleMap.setMyLocationEnabled(true);
 
         UiSettings uiSettings = googleMap.getUiSettings();
@@ -194,12 +209,22 @@ public class GoogleMapsFragment extends Fragment implements GoogleMaps.View, OnM
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        if (location != null) {
-
-            googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_position_arrow)));
-        }
         presenter.onMapReady();
+    }
+
+
+    @Override
+    public void showRoute(@NotNull int[] intArray, @NotNull List<? extends Point> points) {
+        if (intArray != null) {
+            for (int i : intArray) {
+                MarkerOptions options = new MarkerOptions()
+                        .position(new LatLng(points.get(i).getLatitude(), points.get(i).getLongitude()))
+                        .icon(BitmapDescriptorFactory
+                                .fromBitmap(new IconGenerator(getContext())
+                                        .makeIcon(String.valueOf(i))));
+
+                googleMap.addMarker(options);
+            }
+        }
     }
 }

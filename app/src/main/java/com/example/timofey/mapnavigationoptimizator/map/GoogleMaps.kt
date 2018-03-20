@@ -22,6 +22,8 @@ class GoogleMaps {
         fun isMapReady() : Boolean
 
         fun setUpMap()
+
+        fun showRoute(intArray: IntArray, points: List<Point>)
     }
 
     interface Presenter : BasePresenter<View> {
@@ -32,6 +34,8 @@ class GoogleMaps {
         fun onPointListClicked()
 
         fun onMapReady()
+
+        fun onRouteReady(arr : IntArray)
     }
 
     interface Model {

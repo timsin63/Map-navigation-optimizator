@@ -1,8 +1,10 @@
 package com.example.timofey.mapnavigationoptimizator.utils;
 
 import com.example.timofey.mapnavigationoptimizator.Place;
+import com.example.timofey.mapnavigationoptimizator.core.RoutingMatrix;
 import com.example.timofey.mapnavigationoptimizator.database.Point;
 import com.example.timofey.mapnavigationoptimizator.database.PointEntity;
+import com.example.timofey.mapnavigationoptimizator.remote.PlacesRsp;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -40,5 +42,35 @@ public class Mappers {
         pointEntity.setLongitude(latLng.longitude);
         pointEntity.setName(place.getName());
         return pointEntity;
+    }
+
+    public static RoutingMatrix toRoutingMatrix(PlacesRsp rsp) {
+
+        int size = rsp.getRows().size();
+        int timeMatrix[][] = new int[size][size];
+        int distanceMatrix[][] = new int[size][size];
+
+        for (int i = 0; i < timeMatrix.length; i++) {
+            for (int j = 0; j < timeMatrix.length; j++) {
+                timeMatrix[i][j] = Integer.parseInt(
+                        rsp.getRows()
+                                .get(i)
+                                .getElements()
+                                .get(j)
+                                .getDuration()
+                                .getValue());
+
+                distanceMatrix[i][j] = Integer.parseInt(
+                        rsp.getRows()
+                                .get(i)
+                                .getElements()
+                                .get(j)
+                                .getDistance()
+                                .getValue());
+            }
+        }
+
+        RoutingMatrix matrix = new RoutingMatrix(timeMatrix, distanceMatrix);
+        return matrix;
     }
 }

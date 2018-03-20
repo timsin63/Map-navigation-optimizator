@@ -10,8 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.timofey.mapnavigationoptimizator.App;
+import com.example.timofey.mapnavigationoptimizator.GoogleApiModel;
 import com.example.timofey.mapnavigationoptimizator.R;
 import com.example.timofey.mapnavigationoptimizator.database.Point;
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMapModel;
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMapsFragment;
+import com.example.timofey.mapnavigationoptimizator.map.GoogleMapsPresenter;
+import com.google.android.gms.maps.MapFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,5 +84,31 @@ public class PointsFragment extends Fragment implements Points.View {
     public void setPoints(@NotNull List<? extends Point> list) {
         PointsAdapter adapter = new PointsAdapter(list);
         pointListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void openMapWithResult(@NotNull int[] intArray) {
+
+//        GoogleMapsFragment fragment = (GoogleMapsFragment) getFragmentManager().findFragmentByTag(GoogleMapsFragment.TAG);
+        GoogleMapsFragment fragment = new GoogleMapsFragment();
+        fragment.setPresenter(
+                new GoogleMapsPresenter(
+                        new GoogleMapModel(
+                                App.getDatabaseComponent()
+                                        .getPointRepository(), new GoogleApiModel())));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("point_array", intArray);
+
+        if (fragment.getArguments() == null || !fragment.isRemoving()) {
+            fragment.setArguments(bundle);
+        } else {
+            fragment.getArguments().putAll(bundle);
+        }
+
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.activity_main_root, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

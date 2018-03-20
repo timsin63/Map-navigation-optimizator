@@ -23,5 +23,7 @@ class Points {
 
     interface View  {
         fun setPoints(list: List<Point>)
+
+        fun openMapWithResult(intArray: IntArray)
     }
 }

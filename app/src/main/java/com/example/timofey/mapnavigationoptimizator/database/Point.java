@@ -18,4 +18,6 @@ public interface Point {
     double getLatitude();
 
     double getLongitude();
+
+    int getNumber();
 }
